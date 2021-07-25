@@ -6,6 +6,11 @@ pipeline {
         nodejs "nodejs"
     }
     stages {
+        stage('Checkout SCM') {
+            steps {
+               git branch: 'Master-main', url: 'https://github.com/maheshmojo/Front-End_CURD.git'
+            }
+        }
         stage('Build') {
             steps {
              bat "npm install"
@@ -29,27 +34,27 @@ pipeline {
         stage('Build Dockerimage') {
             steps {
                bat "docker build --rm -t front-end-app ."
-               
-               
+
+
             }
         }
         stage('Tag Dockerimage') {
             steps {
-                
+
               bat "docker tag front-end-app 192.168.33.10:8123/front-end-app:${env.BUILD_ID}"
-            
+
             }       
-            
-    
+
+
          }
          stage('Push Dockerimage') {
             steps {
-                
+
               bat"docker login -u docker -p admin@123 192.168.33.10:8123"
               bat "docker push 192.168.33.10:8123/front-end-app:${env.BUILD_ID}" 
             }       
-            
-    
+
+
          }
          stage('Pull from docker and run'){
              agent{
