@@ -6,11 +6,6 @@ pipeline {
         nodejs "nodejs"
     }
     stages {
-        stage('Checkout SCM') {
-            steps {
-               git branch: 'Master-main', url: 'https://github.com/maheshmojo/Front-End_CURD.git'
-            }
-        }
         stage('Build') {
             steps {
              bat "npm install"
